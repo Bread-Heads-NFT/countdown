@@ -5,25 +5,24 @@ const Countdown = ({ countdownData, name }) => {
   if (!countdownData.isItBday) {
     return (
       <div>
+        <h2 className='heading'>
+          You're a little early.
+        </h2>
         <h1 className='heading'>
-          Countdown to <span className='highlight'>{name}'s</span> Birthday
+          The challenge starts at
         </h1>
         <div className='countdown-wrapper'>
           <div className='countdown-box'>
-            {countdownData.days}
-            <span className='legend'>Days</span>
-          </div>
-          <div className='countdown-box'>
-            {countdownData.hours}
+            10
             <span className='legend'>Hours</span>
           </div>
           <div className='countdown-box'>
-            {countdownData.minutes}
+            00
             <span className='legend'>Minutes</span>
           </div>
           <div className='countdown-box'>
-            {countdownData.seconds}
-            <span className='legend'>Seconds</span>
+            PM
+            {/* <span className='legend'>Seconds</span> */}
           </div>
         </div>
       </div>

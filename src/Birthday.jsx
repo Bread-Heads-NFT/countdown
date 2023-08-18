@@ -3,7 +3,7 @@ import Countdown from './Countdown';
 import githubLogo from './githubLogo.svg';
 import { Link } from 'react-router-dom';
 
-const Birthday = ({ name, day, month }) => {
+const Birthday = ({ name, day, month, hour }) => {
   // useState Hooks
   const [state, setState] = useState({
     seconds: 0,
@@ -13,23 +13,17 @@ const Birthday = ({ name, day, month }) => {
     isItBday: false,
   });
 
-  if (name === undefined || day === undefined || month === undefined) {
+  if (day === undefined || month === undefined) {
     // This is if not enough params are provided
-    name = 'Deepankar'; // Name of the Person
-    month = 6; // Month of the Birthday
-    day = 14; // Day of the Birthday
+    month = 8;
+    day = 19;
+    hour = 22;
   }
 
   // get current time
   const currentTime = new Date();
   // get current year
   const currentYear = currentTime.getFullYear();
-
-  // Getting the Birthday in Data Object
-  // WE subtract 1 from momnth ; Months start from 0 in Date Object
-  // Bithday Boolean
-  const isItBday =
-    currentTime.getDate() === day && currentTime.getMonth() === month - 1;
 
   useEffect(() => {
     setInterval(() => {
@@ -39,11 +33,11 @@ const Birthday = ({ name, day, month }) => {
 
         // if the Birthday has passed
         // then set the Birthday countdown for next year
-        let birthdayDay = new Date(currentYear, month - 1, day);
+        let birthdayDay = new Date(currentYear, month - 1, day, hour);
         if (dateAtm > birthdayDay) {
-          birthdayDay = new Date(currentYear + 1, month - 1, day);
+          birthdayDay = new Date(currentYear + 1, month - 1, day, hour);
         } else if (dateAtm.getFullYear() === birthdayDay.getFullYear() + 1) {
-          birthdayDay = new Date(currentYear, month - 1, day);
+          birthdayDay = new Date(currentYear, month - 1, day, hour);
         }
 
         // Getitng Current Time
@@ -70,52 +64,21 @@ const Birthday = ({ name, day, month }) => {
           minutes,
           hours,
           days,
-          isItBday,
         }));
         // console.log(`${days}:${hours}:${minutes}:${seconds} , ${isItBday}`);
       };
-      if (!isItBday) {
         countdown();
-      } else {
-        setState((prevState) => ({
-          ...prevState,
-          isItBday: true,
-        }));
-      }
     }, 1000);
-  }, [currentYear, day, isItBday, month]);
-
-  let birth = new Date(currentYear, month - 1, day);
-  const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  let monthBday = monthNames[birth.getMonth()];
+  }, [currentYear, day, hour, month]);
 
   return (
     <div className='page'>
       <Countdown countdownData={state} name={name} />
-      {!isItBday && (
+      {(
         <>
-          <div className='birthdate'>
-            Birth-Date: {day} {monthBday} {currentYear}
+          <div>
+            <h1>UTC</h1>
           </div>
-          <div className='credits'>
-            <a href='https://github.com/x1-il'>
-              <img src={githubLogo} alt='Github-Logo' className='github-logo' />
-            </a>
-          </div>
-          <Link to='/generate'>Generate Here</Link>
         </>
       )}
     </div>
